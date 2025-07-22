@@ -1,10 +1,16 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 import pandas as pd
 import joblib
 
-app = FastAPI()
+app = FastAPI(
+    title="Student Performance Prediction API",
+    description="A FastAPI application to predict student exam scores based on various academic and personal factors using a trained machine learning model.",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
 
 # Enable CORS for Flutter frontend
 app.add_middleware(
@@ -31,20 +37,56 @@ feature_constraints = {
     'Gender': {'type': 'categorical', 'values': ['Male', 'Female']}
 }
 
-# Pydantic model for input validation
+# Pydantic model for input validation with documentation
 class StudentInput(BaseModel):
-    Hours_Studied: float
-    Attendance: float
-    Access_to_Resources: str
-    Extracurricular_Activities: str
-    Sleep_Hours: float
-    Previous_Scores: float
-    Internet_Access: str
-    Teacher_Quality: str
-    School_Type: str
-    Peer_Influence: str
-    Learning_Disabilities: str
-    Gender: str
+    Hours_Studied: float = Field(
+        ..., ge=0, le=50, description="Number of hours studied per week (0 to 50).",
+        example=20.5
+    )
+    Attendance: float = Field(
+        ..., ge=0, le=100, description="Percentage of classes attended (0 to 100).",
+        example=85.0
+    )
+    Access_to_Resources: str = Field(
+        ..., description="Access to learning resources (Low, Medium, High).",
+        example="Medium"
+    )
+    Extracurricular_Activities: str = Field(
+        ..., description="Participation in extracurricular activities (Yes, No).",
+        example="Yes"
+    )
+    Sleep_Hours: float = Field(
+        ..., ge=0, le=24, description="Average hours of sleep per night (0 to 24).",
+        example=7.0
+    )
+    Previous_Scores: float = Field(
+        ..., ge=0, le=100, description="Previous exam score (0 to 100).",
+        example=90.0
+    )
+    Internet_Access: str = Field(
+        ..., description="Access to the internet (Yes, No).",
+        example="Yes"
+    )
+    Teacher_Quality: str = Field(
+        ..., description="Quality of teachers (Low, Medium, High).",
+        example="High"
+    )
+    School_Type: str = Field(
+        ..., description="Type of school attended (Public, Private).",
+        example="Private"
+    )
+    Peer_Influence: str = Field(
+        ..., description="Influence of peers on academic performance (Positive, Negative, Neutral).",
+        example="Positive"
+    )
+    Learning_Disabilities: str = Field(
+        ..., description="Presence of learning disabilities (Yes, No).",
+        example="No"
+    )
+    Gender: str = Field(
+        ..., description="Gender of the student (Male, Female).",
+        example="Female"
+    )
 
     @validator('Hours_Studied')
     def validate_hours_studied(cls, v):
@@ -118,11 +160,41 @@ class StudentInput(BaseModel):
             raise ValueError('Gender must be Male or Female')
         return v
 
-@app.get("/")
+    class Config:
+        schema_extra = {
+            "example": {
+                "Hours_Studied": 20.5,
+                "Attendance": 85.0,
+                "Access_to_Resources": "Medium",
+                "Extracurricular_Activities": "Yes",
+                "Sleep_Hours": 7.0,
+                "Previous_Scores": 90.0,
+                "Internet_Access": "Yes",
+                "Teacher_Quality": "High",
+                "School_Type": "Private",
+                "Peer_Influence": "Positive",
+                "Learning_Disabilities": "No",
+                "Gender": "Female"
+            }
+        }
+
+@app.get(
+    "/",
+    tags=["General"],
+    summary="Root endpoint",
+    description="Returns a welcome message for the Student Performance Prediction API.",
+    response_description="A JSON object containing a welcome message."
+)
 async def root():
     return {"message": "Student Performance Prediction API"}
 
-@app.post("/predict")
+@app.post(
+    "/predict",
+    tags=["Prediction"],
+    summary="Predict exam score",
+    description="Predicts a student's exam score based on provided academic and personal factors using a trained machine learning model.",
+    response_description="A JSON object containing the predicted exam score or an error message."
+)
 async def predict_exam_score(input: StudentInput):
     try:
         # Convert input to DataFrame
