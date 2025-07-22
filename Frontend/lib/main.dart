@@ -14,12 +14,11 @@ class StudentPredictionApp extends StatelessWidget {
     return MaterialApp(
       title: 'Student Performance Predictor',
       theme: ThemeData(
-        primaryColor: Colors.teal,
-        scaffoldBackgroundColor: Colors.grey[100],
         textTheme: GoogleFonts.poppinsTextTheme(),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const PredictionForm(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -102,7 +101,7 @@ class _PredictionFormState extends State<PredictionForm> with SingleTickerProvid
       setState(() {
         _isLoading = false;
         if (result['success']) {
-          _predictionResult = 'Predicted Exam Score: ${result['predicted_exam_score'].toStringAsFixed(2)}';
+          _predictionResult = 'Predicted Exam Score: ${result['predicted_exam_score'].toStringAsFixed(2)}%';
           _animationController.forward(from: 0.0);
         } else {
           _predictionResult = 'Error: ${result['error']}';
@@ -115,12 +114,26 @@ class _PredictionFormState extends State<PredictionForm> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title:  Text(
+          'Predict Your Exam Score',
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+            color: Color(0xFF113F67),
+          ),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.teal.shade300, Colors.teal.shade100],
+            colors: [
+              Color(0xFF4A5BA3),
+              Color(0xFF168BB3),
+              Color(0xFF02C9B7),
+            ],
           ),
         ),
         child: SafeArea(
@@ -132,23 +145,14 @@ class _PredictionFormState extends State<PredictionForm> with SingleTickerProvid
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Predict Your Exam Score',
-                      style: GoogleFonts.poppins(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
+
                     const SizedBox(height: 20),
                     _buildInputCard([
                       _buildTextField(_hoursStudiedController, 'Hours Studied (0-50)', 'Must be between 0 and 50', 0, 50),
                       _buildTextField(_attendanceController, 'Attendance (0-100)', 'Must be between 0 and 100', 0, 100),
                       _buildTextField(_sleepHoursController, 'Sleep Hours (0-24)', 'Must be between 0 and 24', 0, 24),
                       _buildTextField(_previousScoresController, 'Previous Scores (0-100)', 'Must be between 0 and 100', 0, 100),
-                    ]),
-                    const SizedBox(height: 20),
-                    _buildInputCard([
+                      const SizedBox(height: 10),
                       _buildDropdown('Access to Resources', _accessToResources, _dropdownOptions['Access_to_Resources']!, (value) => _accessToResources = value),
                       _buildDropdown('Extracurricular Activities', _extracurricularActivities, _dropdownOptions['Extracurricular_Activities']!, (value) => _extracurricularActivities = value),
                       _buildDropdown('Internet Access', _internetAccess, _dropdownOptions['Internet_Access']!, (value) => _internetAccess = value),
@@ -165,8 +169,8 @@ class _PredictionFormState extends State<PredictionForm> with SingleTickerProvid
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _submitForm,
                           style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                            backgroundColor: Colors.teal.shade700,
+                            padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                            backgroundColor: Colors.white,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                             elevation: 5,
@@ -175,7 +179,7 @@ class _PredictionFormState extends State<PredictionForm> with SingleTickerProvid
                               ? const CircularProgressIndicator(color: Colors.white)
                               : Text(
                             'Predict Score',
-                            style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600),
+                            style: GoogleFonts.poppins(fontSize: 18, color: Color(0xFF4A5BA3), fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
@@ -187,7 +191,7 @@ class _PredictionFormState extends State<PredictionForm> with SingleTickerProvid
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: _predictionResult.startsWith('Error') ? Colors.red.shade100 : Colors.green.shade100,
+                            color: _predictionResult.startsWith('Error') ? Colors.red.shade100 : Colors.white,
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
@@ -198,6 +202,7 @@ class _PredictionFormState extends State<PredictionForm> with SingleTickerProvid
                             ],
                           ),
                           child: Text(
+
                             _predictionResult.isEmpty ? 'Enter details to see your prediction' : _predictionResult,
                             style: GoogleFonts.poppins(
                               fontSize: 16,
@@ -241,10 +246,10 @@ class _PredictionFormState extends State<PredictionForm> with SingleTickerProvid
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: GoogleFonts.poppins(color: Colors.teal.shade700),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          labelStyle: GoogleFonts.poppins(color: Colors.grey.shade700),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
           filled: true,
-          fillColor: Colors.teal.shade50,
+          fillColor: Colors.blueGrey.shade50,
         ),
         keyboardType: TextInputType.number,
         validator: (value) {
@@ -263,10 +268,10 @@ class _PredictionFormState extends State<PredictionForm> with SingleTickerProvid
       child: DropdownButtonFormField<String>(
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: GoogleFonts.poppins(color: Colors.teal.shade700),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          labelStyle: GoogleFonts.poppins(color: Colors.grey.shade700),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
           filled: true,
-          fillColor: Colors.teal.shade50,
+          fillColor: Colors.blueGrey.shade50,
         ),
         value: value,
         items: items.map((option) => DropdownMenuItem(value: option, child: Text(option))).toList(),
