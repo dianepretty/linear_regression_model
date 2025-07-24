@@ -7,7 +7,7 @@ While students enroll in universities with high aspirations, studies indicate th
 The dataset (`StudentPerformanceFactors.csv`) contains 13 columns and 6,608 rows: 12 feature columns and 1 target column (`Exam_Score`, 0-100). Features include 4 numerical (Hours_Studied, Attendance, Sleep_Hours, Previous_Scores) and 8 categorical (e.g., Access_to_Resources: [Low, Medium, High], Gender: [Male, Female]) after dropping 7 excluded features (including: Family_Income, Parental_Involvement, Physical_Activity, Distance_from_Home, Motivation_Level, Tutoring_Sessions and Parental_Education_Level). 
 
 ## End point documentation
-Documentation: `https://student-performance-prediction-qsit.onrender.com/docs`
+https://student-performance-prediction-qsit.onrender.com/docs
 
 ## Youtube video demo
 
