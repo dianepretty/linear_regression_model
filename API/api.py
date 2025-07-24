@@ -202,7 +202,7 @@ async def predict_exam_score(input: StudentInput):
         user_data = pd.DataFrame([input_dict])
 
         # Load the best model
-        best_model = joblib.load('../linear_regression/best_model_modified.pkl')
+        best_model = joblib.load('../linear_regression/best_model.pkl')
 
         # Predict
         prediction = best_model.predict(user_data)[0]
