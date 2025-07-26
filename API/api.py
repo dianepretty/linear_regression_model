@@ -37,7 +37,7 @@ feature_constraints = {
     'Gender': {'type': 'categorical', 'values': ['Male', 'Female']}
 }
 
-# Pydantic model for input validation with documentation
+# Input validation
 class StudentInput(BaseModel):
     Hours_Studied: float = Field(
         ..., ge=0, le=50, description="Number of hours studied per week (0 to 50).",
@@ -160,23 +160,6 @@ class StudentInput(BaseModel):
             raise ValueError('Gender must be Male or Female')
         return v
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "Hours_Studied": 20.5,
-                "Attendance": 85.0,
-                "Access_to_Resources": "Medium",
-                "Extracurricular_Activities": "Yes",
-                "Sleep_Hours": 7.0,
-                "Previous_Scores": 90.0,
-                "Internet_Access": "Yes",
-                "Teacher_Quality": "High",
-                "School_Type": "Private",
-                "Peer_Influence": "Positive",
-                "Learning_Disabilities": "No",
-                "Gender": "Female"
-            }
-        }
 
 @app.get(
     "/",

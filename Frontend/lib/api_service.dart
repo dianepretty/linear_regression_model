@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  static const String _baseUrl = 'http://10.0.2.2:8000'; // Use 10.0.2.2 for Android emulator
+  static const String _baseUrl = 'https://student-performance-prediction-qsit.onrender.com'; // Use 10.0.2.2 for Android emulator
 
   Future<Map<String, dynamic>> predictExamScore(Map<String, dynamic> input) async {
     try {
