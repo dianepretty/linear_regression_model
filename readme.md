@@ -13,7 +13,6 @@ https://student-performance-prediction-qsit.onrender.com/docs
 https://youtu.be/xdp0iiMdPSk
 
 ## Run mobile app
-
 1. Clone the repository: `git clone https://github.com/dianepretty/linear_regression_model.git`
 2. Navigate to the app directory: `cd Frontend`
 3. Install dependencies: `flutter pub get`
