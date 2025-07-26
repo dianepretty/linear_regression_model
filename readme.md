@@ -10,7 +10,7 @@ The dataset (`StudentPerformanceFactors.csv`) contains 13 columns and 6,608 rows
 https://student-performance-prediction-qsit.onrender.com/docs
 
 ## Youtube video demo
-
+https://youtu.be/xdp0iiMdPSk
 
 ## Run mobile app
 

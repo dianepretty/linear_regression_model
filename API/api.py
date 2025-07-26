@@ -12,7 +12,7 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-# Enable CORS for Flutter frontend
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Adjust for production
