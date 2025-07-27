@@ -10,7 +10,7 @@ The dataset (`StudentPerformanceFactors.csv`) contains 13 columns and 6,608 rows
 https://student-performance-prediction-qsit.onrender.com/docs
 
 ## Youtube video demo
-https://youtu.be/xdp0iiMdPSk
+https://youtu.be/fd5HylAyWHs
 
 ## Run mobile app
 1. Clone the repository: `git clone https://github.com/dianepretty/linear_regression_model.git`
